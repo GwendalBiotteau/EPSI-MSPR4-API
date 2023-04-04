@@ -1,0 +1,67 @@
+version: "3.1"
+services:
+    php:
+        build: .docker/php
+        container_name: ${PROJECT_NAME}-php
+        working_dir: /public_html
+        volumes:
+            - .:/public_html
+            - ./.docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+            - ./.docker/php/xdebug-ini-overrides.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./.docker/php/error-reporting-overrides.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+        ports:
+            - "9000:9000"
+        environment:
+            UPLOAD_LIMIT: 64M
+
+    nginx:
+        image: nginx:alpine
+        container_name: ${PROJECT_NAME}-nginx
+        working_dir: /public_html
+        depends_on:
+            - php
+        volumes:
+            - .:/public_html
+            - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - .:/mysql/data
+        ports:
+            - "80:80"
+
+    mysql:
+        image: mysql:8.0
+        container_name: ${PROJECT_NAME}-mysql
+        working_dir: /mysql/data
+        volumes:
+            - .:/public_html
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+        ports:
+            - 3306:3306
+        command: mysqld --innodb-flush-method=littlesync --innodb-use-native-aio=OFF --sql_mode=""
+
+    adminer:
+        image: adminer
+        container_name: ${PROJECT_NAME}-adminer
+        ports:
+            - 8182:8080
+        links:
+            - mysql:db
+        environment:
+            - ADMINER_DESIGN=pappu687
+            - ADMINER_PLUGIN=tables-filter
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: ${PROJECT_NAME}-phpmyadmin
+        depends_on:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_USER: ${MYSQL_USER}
+            PMA_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - "81:80"
