@@ -16,3 +16,6 @@ bash:
 
 install:
 	composer install --ignore-platform-reqs
+
+controller:
+	php bin/console make:controller
