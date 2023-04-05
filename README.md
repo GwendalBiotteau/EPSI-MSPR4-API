@@ -45,6 +45,7 @@ L'installation du projet comprends plusieurs étapes. Certaines étapes peuvent 
   - `php bin/console doctrine:database:create --if-not-exists`
   - `php bin/console doctrine:schema:drop --full-database --force`
   - `php bin/console doctrine:schema:update --force`
+  - `php bin/console doctrine:fixtures:load --append`
 - **MAKE** :
   - `make install`
 
