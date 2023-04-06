@@ -1,0 +1,10 @@
+# Read the documentation: https://fosrestbundle.readthedocs.io/en/3.x/
+fos_rest:
+    body_listener:
+        enabled: true
+    exception:
+        enabled: true
+        flatten_exception_format: legacy
+    format_listener:
+        rules:
+            - { path: '^/', priorities: ['json'], fallback_format: json }
