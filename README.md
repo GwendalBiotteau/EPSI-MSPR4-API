@@ -39,9 +39,13 @@ L'installation du projet comprends plusieurs étapes. Certaines étapes peuvent 
 - **CLI** : `docker-compose --env-file ./.env.local exec php zsh`
 - **MAKE** : `make bash`
 
-### Installer les applications :
+### Installer l'application :
 - **CLI** :
   - `composer install --ignore-platform-reqs`
+  - `php bin/console doctrine:database:create --if-not-exists`
+  - `php bin/console doctrine:schema:drop --full-database --force`
+  - `php bin/console doctrine:schema:update --force`
+  - `php bin/console doctrine:fixtures:load --append`
 - **MAKE** :
   - `make install`
 

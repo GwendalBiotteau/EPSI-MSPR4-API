@@ -16,3 +16,28 @@ bash:
 
 install:
 	composer install --ignore-platform-reqs
+	make database
+
+database:
+	php bin/console doctrine:database:create --if-not-exists
+	php bin/console doctrine:schema:drop --full-database --force
+	php bin/console doctrine:schema:update --force
+	php bin/console doctrine:fixtures:load --append
+
+migration:
+	php bin/console doctrine:schema:drop --full-database --force
+	php bin/console doctrine:migrations:migrate
+	php bin/console make:migration
+
+prod_migrations:
+	php bin/console doctrine:migrations:migrate
+	php bin/console make:migration
+
+migrate:
+	php bin/console doctrine:migrations:migrate
+
+controller:
+	php bin/console make:controller
+
+fixtures:
+	php bin/console make:fixtures
