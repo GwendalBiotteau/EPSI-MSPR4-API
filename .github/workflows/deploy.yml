@@ -1,5 +1,3 @@
-name: Deploy
-
 on:
   push:
     branches:
@@ -11,20 +9,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    # - uses: actions/checkout@v2
-
-    # - name: Set up PHP
-    #   uses: shivammathur/setup-php@v2
-    #   with:
-    #     php-version: '8.1'
-
-    # - name: Install dependencies
-    #   run: composer install --ignore-platform-reqs --no-dev --optimize-autoloader
-    #   run: npm install
-
-    # - name: Build the project
-    #   run: php bin/console cache:clear --env=prod
-
       - name: Deploy & Build
         uses: appleboy/ssh-action@master
         with:
@@ -34,7 +18,7 @@ jobs:
           port: ${{ secrets.HOSTINGER_PORT }}
           script: |
             cd ${{ secrets.HOSTINGER_PROJECT_PATH }}
-            git pull origin main
+            git pull origin feature/deployment
             ./composer.phar install --no-dev --optimize-autoloader
             php bin/console doctrine:migrations:sync-metadata-storage
             php bin/console doctrine:migrations:migrate -n
