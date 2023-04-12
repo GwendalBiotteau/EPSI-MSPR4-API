@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - main
-      - feature/deployment
   workflow_dispatch:
 
 jobs:
@@ -18,7 +17,7 @@ jobs:
           port: ${{ secrets.HOSTINGER_PORT }}
           script: |
             cd ${{ secrets.HOSTINGER_PROJECT_PATH }}
-            git pull origin feature/deployment
+            git pull origin main
             ./composer.phar install --no-dev --optimize-autoloader
             php bin/console doctrine:migrations:sync-metadata-storage
             php bin/console doctrine:migrations:migrate -n
