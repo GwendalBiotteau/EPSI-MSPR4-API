@@ -1,0 +1,44 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - feature/deployment
+      # - main
+
+jobs:
+  build-and-deploy:
+    # runs-on: ubuntu-latest
+
+    # steps:
+    # - uses: actions/checkout@v2
+
+    # - name: Set up PHP
+    #   uses: shivammathur/setup-php@v2
+    #   with:
+    #     php-version: '8.1'
+
+    # - name: Install dependencies
+    #   run: composer install --ignore-platform-reqs --no-dev --optimize-autoloader
+    #   run: npm install
+
+    # - name: Build the project
+    #   run: php bin/console cache:clear --env=prod
+
+    - name: Deploy to Hostinger
+      uses: appleboy/ssh-action@master
+      with:
+        username: ${{ secrets.HOSTINGER_USERNAME }}
+        password: ${{ secrets.HOSTINGER_PASSWORD }}
+        host: ${{ secrets.HOSTINGER_HOST }}
+        port: ${{ secrets.HOSTINGER_PORT }}
+        script: |
+          cd ${{ secrets.HOSTINGER_PROJECT_PATH }}
+          git pull origin main
+          ./composer.phar install --no-dev --optimize-autoloader
+          php bin/console doctrine:migrations:sync-metadata-storage
+          php bin/console doctrine:migrations:migrate -n
+          php bin/console cache:clear --env=prod
+          mkdir -p var
+          chmod -R 777 var
+          exit
