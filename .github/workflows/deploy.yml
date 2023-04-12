@@ -1,16 +1,16 @@
-name: Deploy to Hostinger
+name: Deploy
 
 on:
   push:
     branches:
+      - main
       - feature/deployment
-      # - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
-    # runs-on: ubuntu-latest
-
-    # steps:
+    runs-on: ubuntu-latest
+    steps:
     # - uses: actions/checkout@v2
 
     # - name: Set up PHP
@@ -25,20 +25,20 @@ jobs:
     # - name: Build the project
     #   run: php bin/console cache:clear --env=prod
 
-    - name: Deploy to Hostinger
-      uses: appleboy/ssh-action@master
-      with:
-        username: ${{ secrets.HOSTINGER_USERNAME }}
-        password: ${{ secrets.HOSTINGER_PASSWORD }}
-        host: ${{ secrets.HOSTINGER_HOST }}
-        port: ${{ secrets.HOSTINGER_PORT }}
-        script: |
-          cd ${{ secrets.HOSTINGER_PROJECT_PATH }}
-          git pull origin main
-          ./composer.phar install --no-dev --optimize-autoloader
-          php bin/console doctrine:migrations:sync-metadata-storage
-          php bin/console doctrine:migrations:migrate -n
-          php bin/console cache:clear --env=prod
-          mkdir -p var
-          chmod -R 777 var
-          exit
+      - name: Deploy & Build
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          host: ${{ secrets.HOSTINGER_HOST }}
+          port: ${{ secrets.HOSTINGER_PORT }}
+          script: |
+            cd ${{ secrets.HOSTINGER_PROJECT_PATH }}
+            git pull origin main
+            ./composer.phar install --no-dev --optimize-autoloader
+            php bin/console doctrine:migrations:sync-metadata-storage
+            php bin/console doctrine:migrations:migrate -n
+            php bin/console cache:clear --env=prod
+            mkdir -p var
+            chmod -R 777 var
+            exit
