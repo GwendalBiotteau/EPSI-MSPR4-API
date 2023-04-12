@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy & Build
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          host: ${{ secrets.HOSTINGER_HOST }}
+          port: ${{ secrets.HOSTINGER_PORT }}
+          script: |
+            cd ${{ secrets.HOSTINGER_PROJECT_PATH }}
+            git pull origin main
+            ./composer.phar install --no-dev --optimize-autoloader
+            php bin/console doctrine:migrations:sync-metadata-storage
+            php bin/console doctrine:migrations:migrate -n
+            php bin/console cache:clear --env=prod
+            mkdir -p var
+            chmod -R 777 var
+            exit
