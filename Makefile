@@ -41,3 +41,6 @@ controller:
 
 fixtures:
 	php bin/console make:fixtures
+
+ssh:
+	ssh -p 65002 u102293665@31.170.164.116
