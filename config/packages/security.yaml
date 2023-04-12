@@ -32,6 +32,8 @@ security:
         - { path: ^/register, roles: ROLE_ADMIN}
         - { path: ^/products, roles: [ROLE_WEBSHOP, ROLE_RETAILER]}
         - { path: ^/customers, roles: ROLE_WEBSHOP}
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_WEBSHOP, ROLE_RETAILER]
 
 when@test:
     security:
