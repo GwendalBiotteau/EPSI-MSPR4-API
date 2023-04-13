@@ -15,7 +15,7 @@ security:
             provider: app_user_provider
             json_login:
                 username_path: email
-                check_path: /login_check
+                check_path: /login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
@@ -27,7 +27,6 @@ security:
             security: false
 
     access_control:
-        # - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS}
         - { path: ^/register, roles: ROLE_ADMIN}
         - { path: ^/products, roles: [ROLE_WEBSHOP, ROLE_RETAILER]}
