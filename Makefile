@@ -42,6 +42,12 @@ controller:
 fixtures:
 	php bin/console make:fixtures
 
+test:
+	php bin/console make:test
+
+run_test:
+	php bin/phpunit $(tests)
+
 cc:
 	php bin/console c:c
 
