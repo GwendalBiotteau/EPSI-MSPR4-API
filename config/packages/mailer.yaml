@@ -2,6 +2,6 @@ framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
         envelope:
-            sender: 'test@mspr4.gwendal.online'
+            sender: 'api@mspr4.gwendal.online'
         headers:
-            From: 'Paye ton kawa <test@mspr4.gwendal.online>'
+            From: 'Paye ton kawa <api@mspr4.gwendal.online>'
