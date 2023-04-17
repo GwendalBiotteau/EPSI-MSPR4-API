@@ -28,7 +28,7 @@ security:
 
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS}
-        - { path: ^/register, roles: ROLE_ADMIN}
+        - { path: ^/admin, roles: ROLE_ADMIN}
         - { path: ^/products, roles: [ROLE_WEBSHOP, ROLE_RETAILER]}
         - { path: ^/customers, roles: ROLE_WEBSHOP}
     role_hierarchy:
