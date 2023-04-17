@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libicu-dev \
     libxpm-dev \
+    libjpeg62-turbo-dev \
     libfreetype6-dev \
     dos2unix \
     zsh
@@ -25,8 +26,10 @@ RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime
 RUN "date"
 
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+
 # Type docker-php-ext-install to see available extensions
-RUN docker-php-ext-install pdo pdo_mysql intl
+RUN docker-php-ext-install pdo pdo_mysql intl gd
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 

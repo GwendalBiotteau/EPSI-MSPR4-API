@@ -14,6 +14,8 @@ class UserFixtures extends Fixture
         $adminUser = new User();
         $adminUser
             ->setEmail('admin@mspr4.com')
+            ->setFirstName('Admin')
+            ->setLastName('Test')
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword('$2y$13$.VwexFoV5cWjVsmDIHGGnOLDlsmbyUr4uBi8iFcb7Qoe8CHSxMqce');
 
@@ -23,6 +25,8 @@ class UserFixtures extends Fixture
         $webshopUser = new User();
         $webshopUser
             ->setEmail('webshop@mspr4.com')
+            ->setFirstName('Webshop')
+            ->setLastName('Test')
             ->setRoles(['ROLE_WEBSHOP'])
             ->setPassword('$2y$13$.VwexFoV5cWjVsmDIHGGnOLDlsmbyUr4uBi8iFcb7Qoe8CHSxMqce');
 
@@ -32,6 +36,8 @@ class UserFixtures extends Fixture
         $retailerUser = new User();
         $retailerUser
             ->setEmail('retailer@mspr4.com')
+            ->setFirstName('Retailer')
+            ->setLastName('Test')
             ->setRoles(['ROLE_RETAILER'])
             ->setPassword('$2y$13$.VwexFoV5cWjVsmDIHGGnOLDlsmbyUr4uBi8iFcb7Qoe8CHSxMqce');
 
