@@ -1,0 +1,7 @@
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        envelope:
+            sender: 'test@mspr4.gwendal.online'
+        headers:
+            From: 'Paye ton kawa <test@mspr4.gwendal.online>'
