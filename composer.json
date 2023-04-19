@@ -13,6 +13,8 @@
         "endroid/qr-code": "^4.8",
         "friendsofsymfony/rest-bundle": "*",
         "lexik/jwt-authentication-bundle": "^2.18",
+        "nelmio/api-doc-bundle": "^4.11",
+        "symfony/asset": "6.2.*",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",
@@ -22,7 +24,10 @@
         "symfony/runtime": "6.2.*",
         "symfony/security-bundle": "6.2.*",
         "symfony/serializer": "6.2.*",
-        "symfony/yaml": "6.2.*"
+        "symfony/twig-bundle": "6.2.*",
+        "symfony/yaml": "6.2.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
