@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Endroid\QrCode\QrCode;
+use OpenApi\Attributes as OA;
 use App\Service\MailerService;
 use Endroid\QrCode\Writer\PngWriter;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,10 +26,46 @@ class UserController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param MailerService $mailer
+     * @param UserPasswordHasherInterface $userPasswordHasher
      *
      * @return JsonResponse
      */
     #[Route('/admin/register', name: 'api_register', methods: ['POST'])]
+    #[OA\RequestBody(
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'email',
+                    example: 'john.doe@email.com',
+                    type: 'string',
+                ),
+                new OA\Property(
+                    property: 'firstName',
+                    example: 'John',
+                    type: 'string',
+                ),
+                new OA\Property(
+                    property: 'lastName',
+                    example: 'Doe',
+                    type: 'string',
+                ),
+            ]
+        )
+    )]
+    #[OA\Response(
+        response: 201,
+        description: 'Retailer successfully created',
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Missing required data in request body',
+    )]
+    #[OA\Response(
+        response: 405,
+        description: 'A user already exists with this email address',
+    )]
+    #[OA\Tag(name: 'Admin')]
+    #[Security(name: 'Bearer')]
     public function register(Request $request, EntityManagerInterface $entityManager, MailerService $mailer, UserPasswordHasherInterface $userPasswordHasher): JsonResponse
     {
         // Fetch data from request
@@ -93,10 +131,36 @@ class UserController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param MailerService $mailer
+     * @param UserPasswordHasherInterface $userPasswordHasher
      *
      * @return JsonResponse
      */
     #[Route('/admin/generateQRCode', name: 'api_new_qr_code', methods: ['POST'])]
+    #[OA\RequestBody(
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'email',
+                    example: 'john.doe@email.com',
+                    type: 'string',
+                ),
+            ]
+        )
+    )]
+    #[OA\Response(
+        response: 200,
+        description: 'QRCode successfully resent',
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Missing required data in request body',
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'User not found',
+    )]
+    #[OA\Tag(name: 'Admin')]
+    #[Security(name: 'Bearer')]
     public function newQRCode(Request $request, EntityManagerInterface $entityManager, MailerService $mailer, UserPasswordHasherInterface $userPasswordHasher): JsonResponse
     {
         // Fetch data from request
