@@ -55,6 +55,32 @@ class SoftwareService
     }
 
     /**
+     * Get a list of customers
+     *
+     * @return array
+     */
+    public function customers(): array
+    {
+        $customers = $this->fetch('customers');
+
+        return $customers;
+    }
+
+    /**
+     * Get a customer by id
+     *
+     * @param string $id
+     *
+     * @return array
+     */
+    public function customer(string $id): array
+    {
+        $customer = $this->fetch('customers/' . $id);
+
+        return $customer;
+    }
+
+    /**
      * Perform an API request to the fake ERP/CRM
      *
      * @param string $route

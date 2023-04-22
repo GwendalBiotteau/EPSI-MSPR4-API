@@ -61,3 +61,4 @@ nelmio_api_doc:
             path_patterns:
                 - ^/admin
                 - ^/products
+                - ^/customers
