@@ -55,6 +55,79 @@ class SoftwareService
     }
 
     /**
+     * Get a list of customers
+     *
+     * @return array
+     */
+    public function customers(): array
+    {
+        $customers = $this->fetch('customers');
+
+        return $customers;
+    }
+
+    /**
+     * Get a customer by id
+     *
+     * @param string $id
+     *
+     * @return array
+     */
+    public function customer(string $id): array
+    {
+        $customer = $this->fetch('customers/' . $id);
+
+        return $customer;
+    }
+
+    /**
+     * Get a user orders with products
+     *
+     * @param string $idUser
+     *
+     * @return array
+     */
+    public function orders(string $idUser): array
+    {
+        // Fetch orders
+        $orders = $this->fetch('customers/' . $idUser . '/orders');
+
+        // Insert products in orders
+        foreach ($orders as &$order) {
+            if (!empty($order['id'])) {
+                $products = $this->fetch('customers/' . $idUser . '/orders/' . $order['id'] . '/products');
+                if (!empty($products)) {
+                    $order['products'] = $products;
+                }
+            }
+        }
+
+        return $orders;
+    }
+
+    /**
+     * Get a user order with products
+     *
+     * @param string $idUser
+     * @param string $idOrder
+     *
+     * @return array
+     */
+    public function order(string $idUser, string $idOrder): array
+    {
+        $order = $this->fetch('customers/' . $idUser . '/orders/' . $idOrder);
+
+        if (!empty($order['id'])) {
+            $products = $this->fetch('customers/' . $idUser . '/orders/' . $idOrder . '/products');
+            if (!empty($products)) {
+                $order['products'] = $products;
+            }
+        }
+
+        return $order;
+    }
+
+    /**
      * Perform an API request to the fake ERP/CRM
      *
      * @param string $route
