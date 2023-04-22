@@ -109,12 +109,12 @@ class CustomerController extends AbstractController
     /**
      * Return a customer
      *
-     * @param string $id
+     * @param string $idCustomer
      * @param SoftwareService $softwareAPI
      *
      * @return JsonResponse
      */
-    #[Route('/customers/{id}', name: 'customer', methods: ['GET'])]
+    #[Route('/customers/{idCustomer}', name: 'customer', methods: ['GET'])]
     #[OA\Response(
         response: 200,
         description: 'Return a customer',
@@ -179,10 +179,10 @@ class CustomerController extends AbstractController
     )]
     #[OA\Tag(name: 'Website')]
     #[Security(name: 'Bearer')]
-    public function customer(string $id, SoftwareService $softwareAPI): JsonResponse
+    public function customer(string $idCustomer, SoftwareService $softwareAPI): JsonResponse
     {
         // Fetch customers
-        $customer = $softwareAPI->customer($id);
+        $customer = $softwareAPI->customer($idCustomer);
 
         if (empty($customer) || empty($customer['id'])) {
             return new JsonResponse(status: 204);

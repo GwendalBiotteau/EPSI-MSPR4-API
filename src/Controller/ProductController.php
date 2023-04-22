@@ -98,11 +98,11 @@ class ProductController extends AbstractController
     /**
      * Return a product
      *
-     * @param string $id
+     * @param string $idProduct
      *
      * @return JsonResponse
      */
-    #[Route('/products/{id}', name: 'product', methods: ['GET'])]
+    #[Route('/products/{idProduct}', name: 'product', methods: ['GET'])]
     #[OA\Response(
         response: 200,
         description: 'Returns a product',
@@ -149,10 +149,10 @@ class ProductController extends AbstractController
     #[OA\Tag(name: 'Retailers')]
     #[OA\Tag(name: 'Website')]
     #[Security(name: 'Bearer')]
-    public function product(string $id): JsonResponse
+    public function product(string $idProduct): JsonResponse
     {
         // Fetch product
-        $product = $this->softwareAPI->product($id);
+        $product = $this->softwareAPI->product($idProduct);
 
         if (empty($product)) {
             return new JsonResponse(status: 204);
