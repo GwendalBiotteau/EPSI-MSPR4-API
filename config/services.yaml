@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.softwareAPI: 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/'
+    security.external_password_secret: WuDE8*YTxApm!7
 
 services:
     # default configuration for services in *this* file

@@ -5,3 +5,14 @@ RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
 RewriteRule ^ %1 [L,NE,R=302]
 
 RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+
+AuthType Basic
+AuthName "Restrict Access"
+AuthUserFile .htpasswd
+
+<If "%{REQUEST_URI} =~ m#^/api\/doc/$#">
+    Require valid-user
+</If>
+<ElseIf "%{REQUEST_URI} =~ m#^/api/doc.json$#">
+    Require valid-user
+</If>

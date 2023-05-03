@@ -1,0 +1,64 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: API - Paye ton Kawa
+            description: |-
+                This API was developed for a school project. The code is available for consultation on the following GitHub repository : [https://github.com/GwendalBiotteau/EPSI-MSPR4-API](https://github.com/GwendalBiotteau/EPSI-MSPR4-API)
+            version: 1.0.0
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+        tags:
+        - name: 'Retailers'
+          description: "One Token per user (mobile app). Retailer is registered by an admin and receive a QR Code by email. The QR Code can be scanned through the app to be logged in and receive a token."
+        - name: 'Website'
+          description: 'One Token pre-generated for the website.'
+        - name: 'Admin'
+          description: 'Special token for Admin users'
+        paths:
+            /login:
+                post:
+                    tags:
+                        - Retailers
+                    summary: Log in to get a token
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        email:
+                                            example: 'john.doe@email.com'
+                                            type: string
+                                        password:
+                                            example: 'xxx'
+                                            type: string
+                    responses:
+                        '200':
+                            description: Return a token
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            token:
+                                                example: xxx
+                                                type: string
+                        '400':
+                            description: |-
+                                Invalid JSON.
+
+                                Invalid json message received.
+
+                                The key \"key\" must be provided.
+                        '401':
+                            description: Invalid credentials.
+    areas:
+        default:
+            path_patterns:
+                - ^/admin
+                - ^/products
+                - ^/customers
